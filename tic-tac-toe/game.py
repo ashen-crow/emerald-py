@@ -9,28 +9,19 @@ class Game:
         self.nought = "O"
         self.cross = "X"
         self.available_pieces: list[str] = [self.nought, self.cross]
-        self.count_available_pieces = self.available_pieces.__len__()
+        self.count_available_pieces = len(self.available_pieces)
         self.count_players: int = 2
         self.count_cells: int = 9
-        self.board_piece1: str = " "
-        self.board_piece2: str = " "
-        self.board_piece3: str = " "
-        self.board_piece4: str = " "
-        self.board_piece5: str = " "
-        self.board_piece6: str = " "
-        self.board_piece7: str = " "
-        self.board_piece8: str = " "
-        self.board_piece9: str = " "
         self.board_pieces: list[str] = [
-            self.board_piece1,
-            self.board_piece2,
-            self.board_piece3,
-            self.board_piece4,
-            self.board_piece5,
-            self.board_piece6,
-            self.board_piece7,
-            self.board_piece8,
-            self.board_piece9,
+            " ",
+            " ",
+            " ",
+            " ",
+            " ",
+            " ",
+            " ",
+            " ",
+            " ",
         ]
 
     def get_random_int(self, upper_bound_exclusive: int) -> int:
@@ -51,7 +42,7 @@ class Game:
 
     def get_index_of_rand_empty_cell(self):
         empty_indices = self.get_all_empty_cell_indices()
-        random = self.get_random_int(empty_indices.__len__())
+        random = self.get_random_int(len(empty_indices))
         return empty_indices[random]
 
     def announce_round(self, round_index: int) -> None:
@@ -99,13 +90,14 @@ class Game:
     def play_game_auto(self, should_print_board: bool = False):
         for i in range(9):
             self.announce_round(i)
-            friendly_player_index = (i % 2) + 1
+            player_index = i % 2
+            friendly_player_index = player_index + 1
             self.announce_player_turn(friendly_player_index)
             # Get a random empty cell on the board
-            rand_piece_index: int = self.get_random_int(self.count_available_pieces)
-            print("rand_piece_index is: ", rand_piece_index)
-            random_board_piece_val = self.available_pieces[rand_piece_index]
-            print("__Chose piece: ", random_board_piece_val, " !")
+            #####rand_piece_index: int = self.get_random_int(self.count_available_pieces)
+            #####print("rand_piece_index is: ", rand_piece_index)
+            random_board_piece_val = self.available_pieces[player_index]
+            print("__Use piece: ", random_board_piece_val, " !")
             # Assign the board piece a random value of nought or cross
             rand_index: int = self.get_index_of_rand_empty_cell()
             self.board_pieces[rand_index] = random_board_piece_val
