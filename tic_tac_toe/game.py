@@ -12,18 +12,21 @@ class Game:
         self.count_available_pieces = len(self.available_pieces)
         self.count_players: int = 2
         self.count_cells: int = 9
+        default_cell_value = " "
         self.board_pieces: list[str] = [
-            " ",
-            " ",
-            " ",
-            " ",
-            " ",
-            " ",
-            " ",
-            " ",
-            " ",
+            default_cell_value,
+            default_cell_value,
+            default_cell_value,
+            default_cell_value,
+            default_cell_value,
+            default_cell_value,
+            default_cell_value,
+            default_cell_value,
+            default_cell_value,
         ]
-        self.pieces_triplet: list[list[str]] = [
+
+    def get_pieces_as_triplet(self) -> list[list[str]]:
+        return [
             [
                 self.board_pieces[0],
                 self.board_pieces[1],
@@ -71,7 +74,7 @@ class Game:
     def print_board(self):
         for i in range(3):
             self.print_row_outline()
-            self.print_row(self.pieces_triplet[i])
+            self.print_row(self.get_pieces_as_triplet()[i])
         self.print_row_outline()
 
     def print_row(self, pieces_in_row: list[str]):
@@ -90,6 +93,41 @@ class Game:
 
     def game_is_won(self):
         return NotImplementedError
+
+    def top_row_is_win(self, board: list[str]):
+        if board is not None and len(board) > 0 and board[0] is not None:
+            return board[0] == board[1] == board[2]
+        return False
+
+    def middle_row_is_win(self):
+        if self.board_pieces[3] is not None:
+            return self.board_pieces[3] == self.board_pieces[4] == self.board_pieces[5]
+        return False
+
+    def bottom_row_is_win(self):
+        if self.board_pieces[6] is not None:
+            return self.board_pieces[6] == self.board_pieces[7] == self.board_pieces[8]
+        return False
+
+    def left_col_is_win(self):
+        if self.board_pieces[0] is not None:
+            return self.board_pieces[0] == self.board_pieces[3] == self.board_pieces[6]
+        return False
+
+    def middle_col_is_win(self):
+        if self.board_pieces[1] is not None:
+            return self.board_pieces[1] == self.board_pieces[3] == self.board_pieces[6]
+        return False
+
+    def right_col_is_win(self):
+        if self.board_pieces[2] is not None:
+            return self.board_pieces[2] == self.board_pieces[5] == self.board_pieces[8]
+        return False
+
+    def right_down_diagonal_is_win(self):
+        if self.board_pieces[0] is not None:
+            return self.board_pieces[0] == self.board_pieces[5] == self.board_pieces[8]
+        return False
 
     def announce_winner(self):
         return NotImplementedError
@@ -119,6 +157,6 @@ class Game:
         return i % 2
 
 
-obj = Game()
-obj.print_board()
-obj.play_game_auto(True)
+##obj = Game()
+##obj.print_board()
+##obj.play_game_auto(True)

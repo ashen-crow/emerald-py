@@ -1,0 +1,14 @@
+{
+    "recommendations": [
+        "ms-python.black-formatter",
+        "streetsidesoftware.code-spell-checker",
+        "usernamehw.errorlens",
+        "oderwat.indent-rainbow",
+        "benjaminmandersen.midnight-pastel",
+        "ms-python.vscode-pylance",
+        "ms-python.pylint",
+        "ms-python.python",
+        "ms-python.debugpy",
+        "vscode-icons-team.vscode-icons"
+    ]
+}
