@@ -23,6 +23,23 @@ class Game:
             " ",
             " ",
         ]
+        self.pieces_triplet: list[list[str]] = [
+            [
+                self.board_pieces[0],
+                self.board_pieces[1],
+                self.board_pieces[2],
+            ],
+            [
+                self.board_pieces[3],
+                self.board_pieces[4],
+                self.board_pieces[5],
+            ],
+            [
+                self.board_pieces[6],
+                self.board_pieces[7],
+                self.board_pieces[8],
+            ],
+        ]
 
     def get_random_int(self, upper_bound_exclusive: int) -> int:
         return int(rand.random() * 100) % upper_bound_exclusive
@@ -52,59 +69,54 @@ class Game:
         print("__Player ", player, "'s turn!")
 
     def print_board(self):
+        for i in range(3):
+            self.print_row_outline()
+            self.print_row(self.pieces_triplet[i])
         self.print_row_outline()
+
+    def print_row(self, pieces_in_row: list[str]):
         print(
             "|",
-            self.board_pieces[0],
+            pieces_in_row[0],
             "|",
-            self.board_pieces[1],
+            pieces_in_row[1],
             "|",
-            self.board_pieces[2],
-            "|",
-        )
-        self.print_row_outline()
-        print(
-            "|",
-            self.board_pieces[3],
-            "|",
-            self.board_pieces[4],
-            "|",
-            self.board_pieces[5],
+            pieces_in_row[2],
             "|",
         )
-        self.print_row_outline()
-        print(
-            "|",
-            self.board_pieces[6],
-            "|",
-            self.board_pieces[7],
-            "|",
-            self.board_pieces[8],
-            "|",
-        )
-        self.print_row_outline()
 
     def print_row_outline(self):
         print("+", "-", "+", "-", "+", "-", "+", end="\n")
 
-    def play_game_auto(self, should_print_board: bool = False):
+    def game_is_won(self):
+        return NotImplementedError
+
+    def announce_winner(self):
+        return NotImplementedError
+
+    def restart_game(self):
+        return NotImplementedError
+
+    def play_game_auto(self, should_print_board_after_round: bool = False):
         for i in range(9):
             self.announce_round(i)
-            player_index = i % 2
+            player_index = self.get_player_index_by_round_index(i)
             friendly_player_index = player_index + 1
             self.announce_player_turn(friendly_player_index)
-            # Get a random empty cell on the board
-            #####rand_piece_index: int = self.get_random_int(self.count_available_pieces)
-            #####print("rand_piece_index is: ", rand_piece_index)
             random_board_piece_val = self.available_pieces[player_index]
             print("__Use piece: ", random_board_piece_val, " !")
-            # Assign the board piece a random value of nought or cross
             rand_index: int = self.get_index_of_rand_empty_cell()
             self.board_pieces[rand_index] = random_board_piece_val
             print("rand_index is: ", rand_index)
             print("__Chose a cell!")
-        if should_print_board:
-            self.print_board()
+            if should_print_board_after_round:
+                self.print_board()
+            if self.game_is_won():
+                self.announce_winner()
+                self.restart_game()
+
+    def get_player_index_by_round_index(self, i):
+        return i % 2
 
 
 obj = Game()
