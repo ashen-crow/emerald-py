@@ -1,4 +1,5 @@
 import random as rand
+import win_combination_checker
 
 
 class Game:
@@ -13,6 +14,7 @@ class Game:
         self.count_players: int = 2
         self.count_cells: int = 9
         default_cell_value = " "
+        self.win_combination_checker = win_combination_checker.WinCombinationChecker()
         self.board_pieces: list[str] = [
             default_cell_value,
             default_cell_value,
@@ -92,48 +94,15 @@ class Game:
         print("+", "-", "+", "-", "+", "-", "+", end="\n")
 
     def game_is_won(self):
-        return NotImplementedError
-
-    def top_row_is_win(self, board: list[str]):
-        if board is not None and len(board) > 0 and board[0] is not None:
-            return board[0] == board[1] == board[2]
-        return False
-
-    def middle_row_is_win(self):
-        if self.board_pieces[3] is not None:
-            return self.board_pieces[3] == self.board_pieces[4] == self.board_pieces[5]
-        return False
-
-    def bottom_row_is_win(self):
-        if self.board_pieces[6] is not None:
-            return self.board_pieces[6] == self.board_pieces[7] == self.board_pieces[8]
-        return False
-
-    def left_col_is_win(self):
-        if self.board_pieces[0] is not None:
-            return self.board_pieces[0] == self.board_pieces[3] == self.board_pieces[6]
-        return False
-
-    def middle_col_is_win(self):
-        if self.board_pieces[1] is not None:
-            return self.board_pieces[1] == self.board_pieces[3] == self.board_pieces[6]
-        return False
-
-    def right_col_is_win(self):
-        if self.board_pieces[2] is not None:
-            return self.board_pieces[2] == self.board_pieces[5] == self.board_pieces[8]
-        return False
-
-    def right_down_diagonal_is_win(self):
-        if self.board_pieces[0] is not None:
-            return self.board_pieces[0] == self.board_pieces[5] == self.board_pieces[8]
-        return False
+        return self.win_combination_checker.game_is_won(board=self.board_pieces)
 
     def announce_winner(self):
-        return NotImplementedError
+        print("announcing winner")
+        raise NotImplementedError()
 
     def restart_game(self):
-        return NotImplementedError
+        print("restarting game")
+        raise NotImplementedError()
 
     def play_game_auto(self, should_print_board_after_round: bool = False):
         for i in range(9):
@@ -155,8 +124,3 @@ class Game:
 
     def get_player_index_by_round_index(self, i):
         return i % 2
-
-
-##obj = Game()
-##obj.print_board()
-##obj.play_game_auto(True)
